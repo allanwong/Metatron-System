@@ -27,9 +27,9 @@ namespace Connection
             return wd;
         }
 
-        public static WindData fetchMultiSecPctChg(String strWindCode, DateTime dtBegin, DateTime dtEnd)
+        public static WindData fetchTimeSeriesSecInfo(String strWindCode, string strCodeType, DateTime dtBegin, DateTime dtEnd)
         {
-            WindData wd = ConnWind.w.wsd(strWindCode, "pct_chg", dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), "");
+            WindData wd = ConnWind.w.wsd(strWindCode, strCodeType, dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), "");
             ConnWind.windEnsureNoErr(wd);
             return wd;
         }
