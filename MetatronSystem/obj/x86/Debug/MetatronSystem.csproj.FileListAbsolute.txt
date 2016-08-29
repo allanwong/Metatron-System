@@ -1,0 +1,9 @@
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.Form1.resources
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.Properties.Resources.resources
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.csproj.GenerateResource.Cache
+G:\Metatron System\MetatronSystem\MetatronSystem\bin\Debug\MetatronSystem.exe
+G:\Metatron System\MetatronSystem\MetatronSystem\bin\Debug\MetatronSystem.pdb
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.exe
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.pdb
+G:\Metatron System\MetatronSystem\MetatronSystem\bin\Debug\MetatronSystem.exe.config
+G:\Metatron System\MetatronSystem\MetatronSystem\obj\x86\Debug\MetatronSystem.csprojResolveAssemblyReference.cache
