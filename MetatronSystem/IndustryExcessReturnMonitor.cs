@@ -41,6 +41,7 @@ namespace MetatronSystem
             DateTime dtBegin;
             DateTime dtEnd;
             DataTable dtIndustryPctChg;
+            //DataTable dtIndustryVolume;
 
             string strWindCode = UtilityTable.getCodeStringFromDataTableCol(dtIndustryIndex, 1);
             if(UtilityCalendar.isAfterTradeHour(DateTime.Now))
@@ -53,18 +54,23 @@ namespace MetatronSystem
             }
             dtEnd=dtBegin.AddDays(-1);
 
-            WindData wd = ConnWindData.fetchMultiSecPctChg(strWindCode, dtEnd, dtBegin);
+            WindData wd = ConnWindData.fetchTimeSeriesSecInfo(strWindCode,"pct_chg", dtEnd, dtBegin);
             dtIndustryPctChg = ConnWindData.convertWindDatatoTable(wd);
+
+            //wd = ConnWindData.fetchTimeSeriesSecInfo(strWindCode, "volume", dtEnd, dtBegin);
+            //dtIndustryVolume = ConnWindData.convertWindDatatoTable(wd);
 
             dtIndustryPctChg.Columns.Add("Sector Name");
             dtIndustryPctChg.Columns.Add("Sector Code");
             dtIndustryPctChg.Columns.Add("PCT CHG", typeof(double));
+            dtIndustryPctChg.Columns.Add("Volume", typeof(double));
             for (int i = 0; i < dtIndustryPctChg.Rows.Count; i++)
             {
                 string strIndustryName = dtIndustryIndex.Rows[i][2].ToString();
                 dtIndustryPctChg.Rows[i]["Sector Name"] = strIndustryName.Substring(0, strIndustryName.Length-4);
                 dtIndustryPctChg.Rows[i]["Sector Code"] = dtIndustryIndex.Rows[i][1];
                 dtIndustryPctChg.Rows[i]["PCT CHG"] = double.Parse(dtIndustryPctChg.Rows[i]["PCT_CHG"].ToString()) / 100;
+                //dtIndustryPctChg.Rows[i]["Volume"] = double.Parse(dtIndustryVolume.Rows[i]["VOLUME"].ToString()) / 10000;
             }
 
             dtIndustryPctChg.Columns["PCT_CHG"].Dispose();
@@ -81,17 +87,27 @@ namespace MetatronSystem
             chartPlot.DataSource = dtPlotData;
             chartPlot.Series.Clear();
 
-            Series chrtSeries = chartPlot.Series.Add("Industry Pct Chg");
-            chrtSeries.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            Series seriesPctChg = chartPlot.Series.Add("Industry Pct Chg");
+            seriesPctChg.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
 
-            chrtSeries.XValueMember = "Sector Name";
-            chrtSeries.YValueMembers = "PCT CHG";
+            seriesPctChg.XValueMember = "Sector Name";
+            seriesPctChg.YValueMembers = "PCT CHG";
 
             chartPlot.ChartAreas[0].AxisX.Interval = 1;
             chartPlot.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
 
-            chrtSeries.ToolTip = "涨幅: #VAL{P3} \r\n行业: #AXISLABEL";
-            chrtSeries.Palette = ChartColorPalette.BrightPastel;
+            seriesPctChg.ToolTip = "涨幅: #VAL{P3} \r\n行业: #AXISLABEL";
+            seriesPctChg.Palette = ChartColorPalette.BrightPastel;
+
+            //Series seriesVolume = chartPlot.Series.Add("Industry Volume");
+            //seriesPctChg.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+
+            //seriesPctChg.XValueMember = "Sector Name";
+            //seriesPctChg.YValueMembers = "Volume";
+            //seriesVolume.YAxisType = AxisType.Secondary;
+
+            //seriesPctChg.ToolTip = "成交量: #VAL \r\n行业: #AXISLABEL";
+            //seriesPctChg.Palette = ChartColorPalette.BrightPastel;
         }
     }
 }
