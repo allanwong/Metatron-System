@@ -68,8 +68,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Utilities\UtilityCalendar.cs" />
     <Compile Include="Utilities\UtilityChart.cs" />
     <Compile Include="Utilities\UtilityConfig.cs" />
+    <Compile Include="Utilities\UtilityTable.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

@@ -21,8 +21,8 @@ namespace MetatronSystem
 
         private void button1_Click(object sender, EventArgs e)
         {
-            WindData wd = ConnWindData.fetchSectorConstituent(DateTime.Now, "申银万国一级行业指数");
-            DataTable dt = ConnWindData.convertWindDatatoTable(wd);
+            IndustryExcessReturnMonitor ierm = new IndustryExcessReturnMonitor();
+            ierm.Show();
         }
 
 

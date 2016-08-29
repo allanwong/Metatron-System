@@ -27,6 +27,14 @@ namespace Connection
             return wd;
         }
 
+        public static WindData fetchMultiSecPctChg(String strWindCode, DateTime dtBegin, DateTime dtEnd)
+        {
+            WindData wd = ConnWind.w.wsd(strWindCode, "pct_chg", dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), "");
+            ConnWind.windEnsureNoErr(wd);
+            return wd;
+        }
+
+
         /// <summary>
         /// Convert any kind of wind data into data table
         /// </summary>
@@ -42,16 +50,36 @@ namespace Connection
                 dtTable.Columns.Add(wd.fieldList[i]);
             }
 
-            object[] objWindData = (object[])wd.data;
-            for (int i = 0; i < objWindData.Length / iCol; i++)
+            if (wd.data.GetType().FullName == "System.Double[]")
             {
-                DataRow dr = dtTable.NewRow();
-                for (int j = 0; j < iCol; j++)
+                double[] dblWindData = (double[])wd.data;
+
+                for (int i = 0; i < dblWindData.Length / iCol; i++)
                 {
-                    dr[j] = objWindData[i * iCol + j];
+                    DataRow dr = dtTable.NewRow();
+                    for (int j = 0; j < iCol; j++)
+                    {
+                        dr[j] = dblWindData[i * iCol + j];
+                    }
+                    dtTable.Rows.Add(dr);
                 }
-                dtTable.Rows.Add(dr);
             }
+            else
+            {
+                object[] objWindData = (object[])wd.data;
+
+                for (int i = 0; i < objWindData.Length / iCol; i++)
+                {
+                    DataRow dr = dtTable.NewRow();
+                    for (int j = 0; j < iCol; j++)
+                    {
+                        dr[j] = objWindData[i * iCol + j];
+                    }
+                    dtTable.Rows.Add(dr);
+                }
+            }
+            
+            
 
             return dtTable;
         }
