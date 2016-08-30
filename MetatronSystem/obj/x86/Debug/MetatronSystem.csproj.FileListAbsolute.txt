@@ -12,7 +12,6 @@ E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.pdb
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\bin\Debug\MetatronSystem.exe
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\bin\Debug\MetatronSystem.pdb
-E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.csprojResolveAssemblyReference.cache
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.Form1.resources
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.IndustryExcessReturnMonitor.resources
 E:\MagiSystem\Cloud\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.Properties.Resources.resources
