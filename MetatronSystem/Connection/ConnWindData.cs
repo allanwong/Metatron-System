@@ -34,6 +34,12 @@ namespace Connection
             return wd;
         }
 
+        public static WindData fetchOHLCInfo(String strWindCode, DateTime dtBegin, DateTime dtEnd)
+        {
+            WindData wd = ConnWind.w.wsd(strWindCode, "open,high,low,close", dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), "");
+            ConnWind.windEnsureNoErr(wd);
+            return wd;
+        }
 
         /// <summary>
         /// Convert any kind of wind data into data table
