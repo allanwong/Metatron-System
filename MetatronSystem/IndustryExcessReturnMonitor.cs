@@ -52,7 +52,7 @@ namespace MetatronSystem
             {
                 dtBegin=UtilityCalendar.fetchDayOffset(DateTime.Now.AddDays(-1), 0);
             }
-            dtEnd=dtBegin.AddDays(-1);
+            dtEnd=dtBegin;
 
             WindData wd = ConnWindData.fetchTimeSeriesSecInfo(strWindCode,"pct_chg", dtEnd, dtBegin);
             dtIndustryPctChg = ConnWindData.convertWindDatatoTable(wd);
