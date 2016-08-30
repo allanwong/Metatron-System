@@ -28,6 +28,7 @@ namespace MetatronSystem
             fetchShenWanIndex(strIndexName);
 
             plotDailyIndustryPctChg(chart1);
+            plotIndexPriceSeries(chart3);
         }
 
         private void fetchShenWanIndex(string strIndexName)
@@ -38,15 +39,15 @@ namespace MetatronSystem
 
         private DataTable fetchPeriodPctChgTable()
         {
-            DateTime dtBegin;
+            DateTime dtBegin = dateTimePicker1.Value;
             DateTime dtEnd;
             DataTable dtIndustryPctChg;
             //DataTable dtIndustryVolume;
 
             string strWindCode = UtilityTable.getCodeStringFromDataTableCol(dtIndustryIndex, 1);
-            if(UtilityCalendar.isAfterTradeHour(DateTime.Now))
+            if (UtilityCalendar.isAfterTradeHour(dateTimePicker1.Value))
             {
-                dtBegin=DateTime.Now;
+                dtBegin = dateTimePicker1.Value;
             }
             else
             {
@@ -89,6 +90,8 @@ namespace MetatronSystem
 
             Series seriesPctChg = chartPlot.Series.Add("Industry Pct Chg");
             seriesPctChg.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Column;
+            chartPlot.ChartAreas[0].AxisY.LabelStyle.Format = "P2";
+            chartPlot.ChartAreas[0].AxisY.LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont;
 
             seriesPctChg.XValueMember = "Sector Name";
             seriesPctChg.YValueMembers = "PCT CHG";
@@ -108,6 +111,80 @@ namespace MetatronSystem
 
             //seriesPctChg.ToolTip = "成交量: #VAL \r\n行业: #AXISLABEL";
             //seriesPctChg.Palette = ChartColorPalette.BrightPastel;
+        }
+
+
+        private void plotIndexPriceSeries(Chart chartPlot)
+        {
+            string strIndex = "000001.SH";
+            string strBenchmark = "000300.SH";
+
+            WindData wd = ConnWindData.fetchTimeSeriesSecInfo(strIndex, "close", dateTimePicker1.Value.AddMonths(-3), dateTimePicker1.Value);
+            DataTable dtIndex = ConnWindData.convertWindDatatoTable(wd);
+            DataTable dtBenchmark = ConnWindData.convertWindDatatoTable(
+                ConnWindData.fetchTimeSeriesSecInfo(strBenchmark, "close", dateTimePicker1.Value.AddMonths(-3), dateTimePicker1.Value));
+
+            DataTable dtMixTable = new DataTable("Mix Data Table");
+            dtMixTable.Columns.Add("DateTime", typeof(DateTime));
+            dtMixTable.Columns.Add("Index", typeof(Double));
+            dtMixTable.Columns.Add("Benchmark", typeof(double));
+
+            for (int i = 0; i < dtBenchmark.Rows.Count; i++)
+            {
+                DataRow dr = dtMixTable.NewRow();
+                dr["DateTime"] = wd.timeList[i];
+                dr["Index"] = dtIndex.Rows[i]["CLOSE"];
+                dr["Benchmark"] = dtBenchmark.Rows[i]["CLOSE"];
+                dtMixTable.Rows.Add(dr);
+            }
+
+            DataView dv = dtMixTable.DefaultView;
+            dv.Sort = "Index";
+            double dMinimal = (double)dtMixTable.Rows[0]["Index"];
+            dv.Sort = "Benchmark";
+            double dMinimalBenchmark = (double)dtMixTable.Rows[0]["Benchmark"];
+
+            chartPlot.ChartAreas[0].AxisY.Minimum = dMinimal * 0.95;
+            chartPlot.ChartAreas[0].AxisY2.Minimum = dMinimalBenchmark * 0.95;
+            chartPlot.ChartAreas[0].AxisY.LabelStyle.Format = "N1";
+            chartPlot.ChartAreas[0].AxisY2.LabelStyle.Format = "N1";
+            chartPlot.ChartAreas[0].AxisY.LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont;
+            chartPlot.ChartAreas[0].AxisY2.LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont;
+            chartPlot.ChartAreas[0].AxisX.LabelAutoFitStyle = LabelAutoFitStyles.DecreaseFont;
+
+            chartPlot.ChartAreas[0].AxisY.MajorGrid.Enabled = false;
+            chartPlot.ChartAreas[0].AxisY2.MajorGrid.Enabled = false;
+            chartPlot.ChartAreas[0].AxisX.MajorGrid.Enabled = false;
+            chartPlot.ChartAreas[0].AxisX2.MajorGrid.Enabled = false;
+            chartPlot.Legends[0].Docking = Docking.Right;
+
+
+            chartPlot.DataSource = dtMixTable;
+            chartPlot.Series.Clear();
+
+            Series SeriesIndex = chartPlot.Series.Add("Industry Close Price");
+            SeriesIndex.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+            SeriesIndex.MarkerStyle = MarkerStyle.Circle;
+            SeriesIndex.MarkerSize = 5;
+
+            SeriesIndex.XValueMember = "DateTime";
+            SeriesIndex.YValueMembers = "Index";
+
+            SeriesIndex.ToolTip = strIndex + "\r\n收盘价: #VAL\r\n日期: #VALX";
+
+            Series SeriesBenchmark = chartPlot.Series.Add("BenchMark Close Price");
+            SeriesBenchmark.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
+
+            SeriesBenchmark.YAxisType = AxisType.Secondary;
+
+            SeriesBenchmark.MarkerStyle = MarkerStyle.Circle;
+            SeriesBenchmark.MarkerSize = 5;
+
+            SeriesBenchmark.XValueMember = "DateTime";
+            SeriesBenchmark.YValueMembers = "Benchmark";
+
+            SeriesBenchmark.ToolTip = strBenchmark + "\r\n收盘价: #VAL\r\n日期: #VALX";
         }
     }
 }
