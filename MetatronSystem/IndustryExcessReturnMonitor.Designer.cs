@@ -138,6 +138,7 @@
             this.chart1.Size = new System.Drawing.Size(1061, 222);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
+            this.chart1.MouseDoubleClick += new System.Windows.Forms.MouseEventHandler(this.chart1_MouseDoubleClick);
             // 
             // splitContainer3
             // 

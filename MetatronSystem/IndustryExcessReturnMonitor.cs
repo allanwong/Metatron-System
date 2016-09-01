@@ -16,6 +16,8 @@ namespace MetatronSystem
     public partial class IndustryExcessReturnMonitor : Form
     {
         DataTable dtIndustryIndex;
+        String strSelectIndexName;
+        String strSelectedWindCode;
 
         public IndustryExcessReturnMonitor()
         {
@@ -28,7 +30,6 @@ namespace MetatronSystem
             fetchShenWanIndex(strIndexName);
 
             plotDailyIndustryPctChg(chart1);
-            plotIndexPriceSeries(chart3);
         }
 
         private void fetchShenWanIndex(string strIndexName)
@@ -116,10 +117,9 @@ namespace MetatronSystem
 
         private void plotIndexPriceSeries(Chart chartPlot)
         {
-            string strIndex = "000001.SH";
             string strBenchmark = "000300.SH";
 
-            WindData wd = ConnWindData.fetchTimeSeriesSecInfo(strIndex, "close", dateTimePicker1.Value.AddMonths(-3), dateTimePicker1.Value);
+            WindData wd = ConnWindData.fetchTimeSeriesSecInfo(strSelectedWindCode, "close", dateTimePicker1.Value.AddMonths(-3), dateTimePicker1.Value);
             DataTable dtIndex = ConnWindData.convertWindDatatoTable(wd);
             DataTable dtBenchmark = ConnWindData.convertWindDatatoTable(
                 ConnWindData.fetchTimeSeriesSecInfo(strBenchmark, "close", dateTimePicker1.Value.AddMonths(-3), dateTimePicker1.Value));
@@ -158,7 +158,8 @@ namespace MetatronSystem
             chartPlot.ChartAreas[0].AxisX2.MajorGrid.Enabled = false;
             chartPlot.Legends[0].Docking = Docking.Right;
 
-
+            chartPlot.Titles.Clear();
+            chartPlot.Titles.Add(strSelectIndexName + "vs 沪深300 近三个月走势");
             chartPlot.DataSource = dtMixTable;
             chartPlot.Series.Clear();
 
@@ -171,7 +172,7 @@ namespace MetatronSystem
             SeriesIndex.XValueMember = "DateTime";
             SeriesIndex.YValueMembers = "Index";
 
-            SeriesIndex.ToolTip = strIndex + "\r\n收盘价: #VAL\r\n日期: #VALX";
+            SeriesIndex.ToolTip = strSelectedWindCode + "\r\n收盘价: #VAL\r\n日期: #VALX";
 
             Series SeriesBenchmark = chartPlot.Series.Add("BenchMark Close Price");
             SeriesBenchmark.ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.Line;
@@ -185,6 +186,24 @@ namespace MetatronSystem
             SeriesBenchmark.YValueMembers = "Benchmark";
 
             SeriesBenchmark.ToolTip = strBenchmark + "\r\n收盘价: #VAL\r\n日期: #VALX";
+        }
+
+        private void chart1_MouseDoubleClick(object sender, MouseEventArgs e)
+        {
+            HitTestResult hitResult = new HitTestResult();
+            hitResult = chart1.HitTest(e.X, e.Y);
+
+            if (hitResult.Series != null)
+            {
+                strSelectIndexName = hitResult.Series.Points[hitResult.PointIndex].AxisLabel;
+                if (strSelectIndexName != null)
+                {
+                    DataRow[] dr = dtIndustryIndex.Select("sec_name LIKE " + "'" + strSelectIndexName + "%'");
+                    strSelectedWindCode = dr[0]["wind_code"].ToString();
+                    if(strSelectedWindCode != null)
+                        plotIndexPriceSeries(chart3);
+                }
+            }
         }
     }
 }
