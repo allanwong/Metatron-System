@@ -68,6 +68,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Strategy\EarningPositivePreannouncement.cs" />
     <Compile Include="Utilities\UtilityCalendar.cs" />
     <Compile Include="Utilities\UtilityChart.cs" />
     <Compile Include="Utilities\UtilityConfig.cs" />
