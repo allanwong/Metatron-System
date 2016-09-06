@@ -27,9 +27,9 @@ namespace Connection
             return wd;
         }
 
-        public static WindData fetchTimeSeriesSecInfo(String strWindCode, string strCodeType, DateTime dtBegin, DateTime dtEnd)
+        public static WindData fetchTimeSeriesSecInfo(String strWindCode, string strCodeType, DateTime dtBegin, DateTime dtEnd, string strOthers="")
         {
-            WindData wd = ConnWind.w.wsd(strWindCode, strCodeType, dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), "");
+            WindData wd = ConnWind.w.wsd(strWindCode, strCodeType, dtBegin.ToShortDateString(), dtEnd.ToShortDateString(), strOthers);
             ConnWind.windEnsureNoErr(wd);
             return wd;
         }

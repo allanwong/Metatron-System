@@ -26,3 +26,13 @@ E:\MagiSystem\Cloud\GitHub\Metatron-System\MetatronSystem\obj\x86\Debug\Metatron
 E:\MagiSystem\Cloud\GitHub\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.IndustryExcessReturnMonitor.resources
 E:\MagiSystem\Cloud\GitHub\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.Properties.Resources.resources
 E:\MagiSystem\Cloud\GitHub\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.csproj.GenerateResource.Cache
+H:\Github\Metatron-System\MetatronSystem\bin\Debug\MetatronSystem.exe.config
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.exe
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.pdb
+H:\Github\Metatron-System\MetatronSystem\bin\Debug\MetatronSystem.exe
+H:\Github\Metatron-System\MetatronSystem\bin\Debug\MetatronSystem.pdb
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.csprojResolveAssemblyReference.cache
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.Form1.resources
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.IndustryExcessReturnMonitor.resources
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.Properties.Resources.resources
+H:\Github\Metatron-System\MetatronSystem\obj\x86\Debug\MetatronSystem.csproj.GenerateResource.Cache

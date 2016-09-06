@@ -25,6 +25,15 @@ namespace MetatronSystem
             ierm.Show();
         }
 
+        private void button2_Click(object sender, EventArgs e)
+        {
+            WindData wd = ConnWindData.fetchSectorConstituent(DateTime.Now, "全部A股");
+            DataTable dtStock = ConnWindData.convertWindDatatoTable(wd);
+            String strWindCode = Utilities.UtilityTable.getCodeStringFromDataTableCol(dtStock, 1);
+
+            Strategy.EarningPositivePreannouncement.PreannouncementConditionFilter(dtStock, new DateTime(2016, 6, 30));
+        }
+
 
     }
 }
